@@ -19,11 +19,8 @@ class Node{
     T n_data;
     Node * pFather;
     vector<Node<T> *> n_childrens; // This Vector contains Pointers to all the childrens
-    size_t size;
-    int color; // For the DFS: 0 is White, 1 is black (No need for gray couse it's a Tree).  
-
-    public:
-    using valuetype = T;
+    size_t size{};
+    int color{}; // For the DFS: 0 is White, 1 is black (No need for gray couse it's a Tree).  
 
     public:
     /**
@@ -31,18 +28,32 @@ class Node{
      *       1. defult Constructor.
      *       2. argument Constructor - data (type T)
      */
-    Node(){
-        this->pFather = NULL;
-        this->size = 1;
-        this->color = 0;
-        }
-    Node(T data){
+    Node(): pFather(NULL),size(0),color(1){}
+    // {
+    //     this->pFather = NULL;
+    //     this->size = 0;
+    //     this->color = 1;
+    // }
+    Node(T data)//: pFather(NULL), n_data(data), size(0), color(1) {}
+    {
         this->pFather = NULL;
         this->n_data = data;
         this->size = 1;
         this->color = 0;
     }
+    // Node(Node<T> &n_copy): pFather(n_copy.getFather()),n_data(n_copy.getData()),size(n_copy.getSize()),color(n_copy.getColor()){}
+    // {
+    //     this->pFather = n_copy.getFather();
+    //     this->n_data = n_copy.getData();
+    //     this->size = n_copy.getSize();
+    //     this->color = n_copy.getColor();
+    // }
     ~Node(){}
+
+    // Node(Node &org) = default;
+    // Node(Node &&org) = default;
+    // Node &Node =(Node &&) = default;
+    // Node &Node=(const Node &org) = default;
 
     /**
      * @brief Get the Data object
@@ -132,11 +143,12 @@ class Node{
      * @return false - there is no node in this Sub-Tree that contains this data.
      */
     bool contains(T data){
-        Node<T> *ptr = this->get(data);
+        Node<T> *ptr = this->get(data); 
+        bool ans = true;
         if(ptr == NULL){
-            return false;
+            ans = false;
         }
-        return true;
+        return ans;
     }
     /**
      * @brief This Function returns the level of this node. 
@@ -168,9 +180,9 @@ class Node{
     string to_string(){
         int last_level = this->level();
         queue<Node<T> *> node_q;
-        string str = "";
-        str += last_level;
-        str +=  "| ";
+        string str;
+        str += (char) last_level;
+        str =  "| ";
         Node<T> *ptr = this;
         node_q.emplace(ptr);
         while(! node_q.empty()){
@@ -296,6 +308,10 @@ class Node{
         return ans;
     }
 
+    Node(Node<T> &n_copy) = default;
+    Node<T> &operator=(Node<T> const &n_new) = default;
+    Node<T> &operator=(Node<T> &&n_new) noexcept = default;
+    Node<T> (Node &&n) noexcept = default;
 
     friend ostream& operator<<(ostream& os, Node& N){
         auto data = N.getData();

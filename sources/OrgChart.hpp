@@ -19,7 +19,8 @@ namespace ariel{
                 size_t _curr; // current index in the vector.
                 vector<Node<string> *> level_list; // vector with all the pointers of the tree - listed in level order.
                 level_iterator(Node<string> * root);
-                ~level_iterator(){}
+                // level_iterator(const level_iterator &r_it) = default;
+                // ~level_iterator(){}
                 int size() const;
                 friend bool operator!=(const level_iterator& it1,const level_iterator& it2){
                      return (it1.curr_Node->getData() != it2.curr_Node->getData());
@@ -27,6 +28,7 @@ namespace ariel{
                 bool operator==(level_iterator& it) const;
                 level_iterator operator++();
                 level_iterator* operator->();
+                // level_iterator &operator=(const level_iterator &it);
                 string operator*() const;
                 int length() const;
                 char at(int index) const;
@@ -40,7 +42,8 @@ namespace ariel{
                 size_t _curr; // current index in the vector.
                 vector<Node<string> *> pre_list; // vector with all the pointers of the tree - listed in pre order.
                 pre_iterator(Node<string> * root);
-                ~pre_iterator(){}
+                // pre_iterator(const pre_iterator &r_it) = default;
+                // ~pre_iterator(){}
                 int size() const;
                 friend bool operator!=(const pre_iterator& it1,const pre_iterator& it2){
                     return (it1.curr_Node->getData() != it2.curr_Node->getData());
@@ -49,17 +52,19 @@ namespace ariel{
                 pre_iterator operator++();
                 pre_iterator* operator->();
                 string operator*() const;
+                // pre_iterator &operator=(const pre_iterator &it);
                 int length() const;
                 char at(int index) const;
         };
 
-        class rev_iterator{
+        class   rev_iterator{
             public:
                 Node<string> *curr_Node; // Current Node in the tree.
                 size_t _curr; // current index in the vector.
                 vector<Node<string> *> rev_list; // vector with all the pointers of the tree - listed in rev order.
                 rev_iterator(Node<string> * root);
-                ~rev_iterator(){}
+                // rev_iterator(const rev_iterator &r_it) = default;
+                // ~rev_iterator(){}
                 int size() const;
                 friend bool operator!=(const rev_iterator& it1,const rev_iterator& it2){
                     return (it1.curr_Node->getData() != it2.curr_Node->getData());
@@ -68,6 +73,7 @@ namespace ariel{
                 rev_iterator operator++();
                 rev_iterator* operator->();
                 string operator*() const;
+                // rev_iterator &operator=(const rev_iterator &it);
                 int length() const;
                 char at(int index) const;
         };
@@ -80,6 +86,10 @@ namespace ariel{
         // Constructor / Deconstructor
         OrgChart();
         ~OrgChart();
+        OrgChart(OrgChart &org) = default;
+        OrgChart(OrgChart &&org) = default;
+        OrgChart &operator=(OrgChart &&) = default;
+        OrgChart &operator=(const OrgChart &org) = default;
 
         /**
          * @brief adding new root for the OrgChart, if the root is NULL we create new Node (with the data) and setting up the root to point to the Node.
@@ -100,7 +110,7 @@ namespace ariel{
         OrgChart& add_sub(string const& manager,string employee);
 
         Node<string> *getRoot() const;
-        size_t getSize(){return this->getRoot()->getSize();}
+        size_t getSize() const {return this->getRoot()->getSize();}
 
         Node<string> *getEnd() const;
         
